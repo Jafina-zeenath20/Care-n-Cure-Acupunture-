@@ -97,4 +97,44 @@ document.addEventListener('DOMContentLoaded', () => {
         section.classList.add('fade-up-element'); // Helper class to be added in CSS if needed
         observer.observe(section);
     });
+
+    // Appointment Form Handling
+    const appointmentForm = document.querySelector('.appointment-form');
+    if (appointmentForm) {
+        appointmentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value || 'Not provided';
+            const treatment = document.getElementById('treatment').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const message = document.getElementById('message').value || 'No specific message';
+
+            // Format message for WhatsApp
+            const whatsappMessage = `*New Appointment Request*
+            
+*Name:* ${name}
+*Phone:* ${phone}
+*Email:* ${email}
+*Treatment:* ${treatment}
+*Date:* ${date}
+*Time:* ${time}
+*Message:* ${message}
+            
+Please confirm my appointment.`;
+
+            // Encode the message
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const clinicPhone = '918825641943';
+
+            // Redirect to WhatsApp
+            window.open(`https://wa.me/${clinicPhone}?text=${encodedMessage}`, '_blank');
+
+            // Optional: Reset form or show success message
+            // appointmentForm.reset();
+            alert('Thank you! Redirecting you to WhatsApp to send your details.');
+        });
+    }
 });
